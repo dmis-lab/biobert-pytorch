@@ -12,7 +12,7 @@ pip install transformers==3.0.0
 ./download.sh
 ```
 Note that you should also install `torch` (see [download instruction](https://pytorch.org/)) to use `transformers`.
-If the download scrip does not work, you can manually download the datasets [here](https://drive.google.com/file/d/1cGqvAm9IZ_86C4Mj7Zf-w9CFilYVDl8j/view?usp=sharing) which should be unzipped in the current directory (`tar -xzvf datasets.tar.gz`).
+If the download script does not work, you can manually download the datasets [here](https://drive.google.com/file/d/1cGqvAm9IZ_86C4Mj7Zf-w9CFilYVDl8j/view?usp=sharing) which should be unzipped in the current directory (`tar -xzvf datasets.tar.gz`).
 
 ## Models
 We provide following versions of BioBERT in PyTorch.
