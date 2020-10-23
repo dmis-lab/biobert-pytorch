@@ -15,7 +15,7 @@ Note that you should also install `torch` (see [download instruction](https://py
 If the download script does not work, you can manually download the datasets [here](https://drive.google.com/file/d/1cGqvAm9IZ_86C4Mj7Zf-w9CFilYVDl8j/view?usp=sharing) which should be unzipped in the current directory (`tar -xzvf datasets.tar.gz`).
 
 ## Models
-We provide following versions of BioBERT in PyTorch.
+We provide following versions of BioBERT in PyTorch (click [here](https://huggingface.co/dmis-lab) to see all).
 You can use BioBERT in `transformers` by setting `--model_name_or_path` as one of them (see example below).
 * `dmis-lab/biobert-base-cased-v1.1`: BioBERT-Base v1.1 (+ PubMed 1M)
 * `dmis-lab/biobert-large-cased-v1.1`: BioBERT-Large v1.1 (+ PubMed 1M)
