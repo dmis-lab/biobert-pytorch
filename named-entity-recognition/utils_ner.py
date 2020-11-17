@@ -251,7 +251,11 @@ def read_examples_from_file(data_dir, mode: Union[Split, str]) -> List[InputExam
                 splits = line.split(" ")
                 words.append(splits[0])
                 if len(splits) > 1:
-                    labels.append(splits[-1].replace("\n", ""))
+                    splits_replace = splits[-1].replace("\n", "")
+                    if splits_replace == 'O':
+                        labels.append(splits_replace)
+                    else:
+                        labels.append(splits_replace + "-bio")
                 else:
                     # Examples could have no label for mode = "test"
                     labels.append("O")
@@ -286,7 +290,6 @@ def convert_examples_to_features(
     # TODO clean up all this to leverage built-in features of tokenizers
 
     label_map = {label: i for i, label in enumerate(label_list)}
-
     features = []
     for (ex_index, example) in enumerate(examples):
         if ex_index % 10_000 == 0:
@@ -296,7 +299,7 @@ def convert_examples_to_features(
         label_ids = []
         for word, label in zip(example.words, example.labels):
             word_tokens = tokenizer.tokenize(word)
-
+            
             # bert-base-multilingual-cased sometimes output "nothing ([]) when calling tokenize with just a space.
             if len(word_tokens) > 0:
                 tokens.extend(word_tokens)
@@ -392,9 +395,10 @@ def get_labels(path: str) -> List[str]:
     if path:
         with open(path, "r") as f:
             labels = f.read().splitlines()
+            labels = [i+'-bio' if i != 'O' else 'O' for i in labels]
         if "O" not in labels:
             labels = ["O"] + labels
         return labels
     else:
-        return ["O", "B-MISC", "I-MISC", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC"]
-
+        # return ["O", "B-MISC", "I-MISC", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC"]
+        return ["O", "B-bio", "I-bio"]

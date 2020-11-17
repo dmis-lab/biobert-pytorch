@@ -303,7 +303,12 @@ def main():
                             if not preds_list[example_id]:
                                 example_id += 1
                         elif preds_list[example_id]:
-                            output_line = line.split()[0] + " " + preds_list[example_id].pop(0) + "\n"
+                            entity_label = preds_list[example_id].pop(0)
+                            if entity_label == 'O':
+                                output_line = line.split()[0] + " " + entity_label + "\n"
+                            else:
+                                output_line = line.split()[0] + " " + entity_label[0] + "\n"
+                            # output_line = line.split()[0] + " " + preds_list[example_id].pop(0) + "\n"
                             writer.write(output_line)
                         else:
                             logger.warning(
