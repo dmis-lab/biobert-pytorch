@@ -11,9 +11,9 @@ Before training, please run `./preprocess.sh` to preprocess the datasets downloa
 export SAVE_DIR=./output
 export DATA_DIR=../datasets/NER
 
-export MAX_LENGTH=128
+export MAX_LENGTH=192
 export BATCH_SIZE=32
-export NUM_EPOCHS=3
+export NUM_EPOCHS=30
 export SAVE_STEPS=1000
 export ENTITY=NCBI-disease
 export SEED=1
@@ -40,14 +40,14 @@ python run_ner.py \
 
 |                |    Test Precision (%)   |    Test Recall (%)   |    Test F1 (%)   |
 |----------------|:-----------------------:|:--------------------:|:----------------:|
-| NCBI-disease   |         87.4920         |        91.1155       |      89.2670     |
-| BC5CDR-disease |         84.0340         |        87.9488       |      85.9468     |
-| BC5CDR-chem    |         93.0060         |        93.9625       |      93.4818     |
-| BC4CHEMD       |         93.2650         |        92.8223       |      93.0431     |
-| JNLPBA         |         76.0107         |        87.0667       |      81.1639     |
-| BC2GM          |         85.8633         |        87.9426       |      86.8905     |
-| LINNAEUS       |         91.7159         |        82.4468       |      86.8347     |
-| S800           |         76.3485         |        84.0822       |      80.0289     |
+| NCBI-disease   |          86.96          |         89.68        |       88.30      |
+| BC5CDR-disease |          84.84          |         87.95        |       86.37      |
+| BC5CDR-chem    |          92.66          |         93.42        |       93.04      |
+| BC4CHEMD       |          91.74          |         90.57        |       91.15      |
+| JNLPBA         |          70.36          |         82.58        |       75.98      |
+| BC2GM          |          82.62          |         84.22        |       83.41      |
+| LINNAEUS       |          92.14          |         84.36        |       88.08      |
+| S800           |          69.20          |         75.88        |       72.38      |
 
 ### BERT
 
