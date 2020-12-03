@@ -66,14 +66,14 @@ python run_ner.py \
 
 |                |    Test Precision (%)   |    Test Recall (%)   |    Test F1 (%)   |
 |----------------|:-----------------------:|:--------------------:|:----------------:|
-| NCBI-disease   |         -         |        -       |      -     |
-| BC5CDR-disease |         -         |        -       |      -     |
-| BC5CDR-chem    |         -         |        -       |      -     |
-| BC4CHEMD       |         -         |        -       |      -     |
-| JNLPBA         |         -         |        -       |      -     |
-| BC2GM          |         -         |        -       |      -     |
-| LINNAEUS       |         -         |        -       |      -     |
-| S800           |         -         |        -       |      -     |
+| NCBI-disease   |          84.65          |         85.62        |       85.13      |
+| BC5CDR-disease |          79.17          |         81.89        |       80.51      |
+| BC5CDR-chem    |          90.36          |         88.43        |       89.38      |
+| BC4CHEMD       |          89.51          |         86.25        |       87.85      |
+| JNLPBA         |          71.03          |         80.44        |       75.44      |
+| BC2GM          |          80.18          |         80.25        |       80.22      |
+| LINNAEUS       |          89.49          |         80.25        |       84.62      |
+| S800           |          68.81          |         73.92        |       71.27      |
 
 ## Contact
 For help or issues using BioBERT-PyTorch, please create an issue and tag [@minstar](https://github.com/minstar).
