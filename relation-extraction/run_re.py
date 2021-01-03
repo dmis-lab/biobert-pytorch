@@ -141,7 +141,8 @@ def main():
     # download model & vocab.
     
     # Currently, this code do not support distributed training.
-    training_args.warmup_steps = int(model_args.warmup_proportion * (len(train_dataset) / training_args.per_device_train_batch_size) * training_args.num_train_epochs)
+    if training_args.do_train:
+        training_args.warmup_steps = int(model_args.warmup_proportion * (len(train_dataset) / training_args.per_device_train_batch_size) * training_args.num_train_epochs)
     training_args_weight_decay = 0.01
     logger.info("Training/evaluation parameters %s", training_args)
     
