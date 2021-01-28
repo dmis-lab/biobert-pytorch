@@ -23,7 +23,7 @@ You can use BioBERT in `transformers` by setting `--model_name_or_path` as one o
 * `dmis-lab/biobert-base-cased-v1.1-squad`: BioBERT-Base v1.1 pre-trained on SQuAD
 
 For other versions of BioBERT or for Tensorflow, please see the [README](https://github.com/dmis-lab/biobert) in the original BioBERT repository.
-You can convert any version of BioBERT into PyTorch with [this](https://github.com/huggingface/transformers/blob/master/src/transformers/convert_bert_original_tf_checkpoint_to_pytorch.py).
+You can convert any version of BioBERT into PyTorch with [this](https://github.com/huggingface/transformers/blob/v3.5.1/src/transformers/convert_bert_original_tf_checkpoint_to_pytorch.py).
 
 ## Example
 For instance, to train BioBERT on the NER dataset (NCBI-disease), run as:
