@@ -1,4 +1,7 @@
 import sys
+import os
+
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 from transformers import AutoTokenizer
 
