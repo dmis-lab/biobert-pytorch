@@ -182,7 +182,7 @@ class Embedder:
             del inputs['metadata']
             
             with torch.no_grad():
-                outputs = model(**inputs)
+                outputs = model(**inputs, return_dict=False)
             last_hidden_states = outputs[0].detach()
 
             # batch process (fast)

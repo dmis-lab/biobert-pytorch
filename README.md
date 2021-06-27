@@ -6,7 +6,7 @@ This project is supported by the members of [DMIS-Lab](https://dmis.korea.ac.kr/
 ## Installation
 ```bash
 # Install huggingface transformers
-pip install transformers==3.0.0
+pip install transformers
 
 # Download all datasets including NER/RE/QA
 ./download.sh
