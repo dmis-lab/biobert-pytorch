@@ -40,7 +40,7 @@ python run_re.py \
 
 ## Evaluation
 ```bash
-python ./scripts/re_eval.py --output_path=${SAVE_DIR}/${ENTITY}/test_results.txt --answer_path=${DATA_DIR}/test_original.tsv
+python ./scripts/re_eval.py --output_path=${SAVE_DIR}/${ENTITY}/test_results.txt --answer_path=${DATA_DIR}/test.tsv
 ```
 To evaluate the prediction, please use `scripts/re_eval.py` file. 
 For an example running script for 10-cv experiment, please task a look at `run_re_10cv.sh` and `scripts/re_eval_10cv.sh`.
