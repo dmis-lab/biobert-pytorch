@@ -121,7 +121,7 @@ class Embedder:
         model: AutoModel,
         args: EmbeddingArguments,
         embed_dataset: EmbeddingDataset=None,
-        output_path: str="",
+        output_path: str=""
     ):
         """
         Embedder is a simple but feature-complete training and eval loop for PyTorch,
