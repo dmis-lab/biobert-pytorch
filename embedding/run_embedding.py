@@ -68,7 +68,7 @@ class DataArguments:
     """
     Arguments pertaining to what data we are going to input our model for training and eval.
     """
-    
+
     data_path: str = field(
         metadata={"help": "The input data path in .txt format."}
     )
@@ -95,6 +95,13 @@ class EmbeddingArguments:
         metadata={
             "help": "The maximum total input sequence length after tokenization. Sequences longer "
             "than this will be truncated, sequences shorter will be padded."
+        },
+    )
+    keep_text_order: bool = field(
+        default=False,
+        metadata={
+            "help": "If this flag is set to True, the hdf5 groups output by the model will be "
+            "named according to their line number in the input file."
         },
     )
 
@@ -124,6 +131,7 @@ class Embedder:
         self.args = args
         self.embed_dataset = embed_dataset
         self.output_path = output_path
+        self.keep_text_order = self.args.keep_text_order
 
     def get_embed_dataloader(self) -> DataLoader:
         if self.embed_dataset is None:
@@ -136,13 +144,13 @@ class Embedder:
         )
 
         return data_loader
-    
+
     def num_examples(self, dataloader: DataLoader) -> int:
         """
         Helper to get num of examples from a DataLoader, by accessing its Dataset.
         """
         return len(dataloader.dataset)
-    
+
     def embed(self) -> Tuple:
         """
         Run prediction and return predictions and potential metrics.
@@ -172,7 +180,7 @@ class Embedder:
 
         # prepare for hdf5 file stream
         f = h5py.File(self.output_path, 'w')
-        
+
         for inputs in tqdm(dataloader, desc='embedding'):
             for k, v in inputs.items():
                 if isinstance(v, torch.Tensor):
@@ -180,7 +188,7 @@ class Embedder:
 
             metadata = inputs['metadata']
             del inputs['metadata']
-            
+
             with torch.no_grad():
                 outputs = model(**inputs)
             last_hidden_states = outputs[0].detach()
@@ -200,24 +208,34 @@ class Embedder:
 
                 # summation
                 embeddings = sub_embeddings.sum(dim=1)
-                
+
                 # mean
                 if self.args.pooling == 'mean':
                     attention_mask = attention_mask[:,:,0].sum(dim=-1).unsqueeze(1)
                     embeddings = embeddings/attention_mask.to(torch.float)
-            
+
             elif self.args.pooling == 'none':
                 for embed, attention_mask in zip(last_hidden_states, inputs['attention_mask']):
                     token_embed = embed[0:attention_mask.sum()]
                     embeddings.append(token_embed)
-                    
+
             # save into hdf5 file
-            for embedding, each_metadata in zip(embeddings,metadata):
-                text_id=u"{}".format(each_metadata['text'])
-                dg = f.get(text_id) or f.create_group(text_id)        
-                if not dg.get('embedding'):
-                    dg.create_dataset('embedding', data=embedding.cpu()) 
-        
+            if self.keep_text_order:
+                for embedding, each_metadata in zip(embeddings,metadata):
+                    text_id=u"{}".format(each_metadata['text_id'])
+                    dg = f.get(text_id) or f.create_group(text_id)
+                    if not dg.get('embedding'):
+                        dg.create_dataset('embedding', data=embedding.cpu())
+                    if not dg.attrs.get('text'):
+                        dg.attrs.create('text', each_metadata['text'])
+
+            else:
+                for embedding, each_metadata in zip(embeddings,metadata):
+                    text_id=u"{}".format(each_metadata['text'])
+                    dg = f.get(text_id) or f.create_group(text_id)
+                    if not dg.get('embedding'):
+                        dg.create_dataset('embedding', data=embedding.cpu())
+
         # close hdf5 file stream
         f.close()
 
@@ -252,14 +270,14 @@ def main():
         config=config,
         cache_dir=model_args.cache_dir,
     )
-    
+
     # Get datasets
     embed_dataset = EmbeddingDataset(
         data_path=data_args.data_path,
         tokenizer=tokenizer,
         max_seq_length=embed_args.max_seq_length,
     )
-    
+
     # Initialize our Embedder
     embedder = Embedder(
         model=model,
@@ -267,11 +285,11 @@ def main():
         embed_dataset=embed_dataset,
         output_path=data_args.output_path
     )
-    
+
     # run embed and save it to hdf5
     embedder.embed()
     print("done")
-    
+
 def _mp_fn(index):
     # For xla_spawn (TPUs)
     main()
