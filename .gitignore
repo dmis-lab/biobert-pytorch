@@ -1,0 +1,6 @@
+datasets
+**/__pycache__
+**/runs
+**/output
+cached*
+*.h5
